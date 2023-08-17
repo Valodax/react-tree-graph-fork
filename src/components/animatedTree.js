@@ -4,29 +4,49 @@ import React from 'react';
 import getTreeData from '../d3';
 import Animated from './animated';
 
-export default function AnimatedTree(props) {
-	return (
-		<Animated
-			duration={props.duration}
-			easing={props.easing}
-			getChildren={props.getChildren}
-			direction={props.direction}
-			height={props.height}
-			keyProp={props.keyProp}
-			labelProp={props.labelProp}
-			nodeShape={props.nodeShape}
-			nodeProps={props.nodeProps}
-			pathFunc={props.pathFunc}
-			steps={props.steps}
-			width={props.width}
-			gProps={{ className: 'node', ...props.gProps }}
-			pathProps={{ className: 'link', ...props.pathProps }}
-			svgProps={props.svgProps}
-			textProps={props.textProps}
-			{...getTreeData(props)}>
-			{ props.children }
-		</Animated>
-	);
+export default function AnimatedTree({
+  data,
+  children,
+  direction = 'ltr',
+  duration = 500,
+  easing = easeQuadOut,
+  steps = 20,
+  height,
+  width,
+  keyProp = 'name',
+  labelProp = 'name',
+  getChildren = n => n.children,
+  margins,
+  pathFunc,
+  nodeShape = 'circle',
+  nodeProps = {},
+  gProps = {},
+  pathProps = {},
+  svgProps = {},
+  textProps = {}
+}) {
+  return (
+    <Animated
+      duration={duration}
+      easing={easing}
+      getChildren={getChildren}
+      direction={direction}
+      height={height}
+      keyProp={keyProp}
+      labelProp={labelProp}
+      nodeShape={nodeShape}
+      nodeProps={nodeProps}
+      pathFunc={pathFunc}
+      steps={steps}
+      width={width}
+      gProps={{ className: 'node', ...gProps }}
+      pathProps={{ className: 'link', ...pathProps }}
+      svgProps={svgProps}
+      textProps={textProps}
+      {...getTreeData({ data, keyProp, getChildren })}>
+      { children }
+    </Animated>
+  );
 }
 
 AnimatedTree.propTypes = {
@@ -56,18 +76,18 @@ AnimatedTree.propTypes = {
 	textProps: PropTypes.object.isRequired
 };
 
-AnimatedTree.defaultProps = {
-	direction: 'ltr',
-	duration: 500,
-	easing: easeQuadOut,
-	getChildren: n => n.children,
-	steps: 20,
-	keyProp: 'name',
-	labelProp: 'name',
-	nodeShape: 'circle',
-	nodeProps: {},
-	gProps: {},
-	pathProps: {},
-	svgProps: {},
-	textProps: {}
-};
+// AnimatedTree.defaultProps = {
+// 	direction: 'ltr',
+// 	duration: 500,
+// 	easing: easeQuadOut,
+// 	getChildren: n => n.children,
+// 	steps: 20,
+// 	keyProp: 'name',
+// 	labelProp: 'name',
+// 	nodeShape: 'circle',
+// 	nodeProps: {},
+// 	gProps: {},
+// 	pathProps: {},
+// 	svgProps: {},
+// 	textProps: {}
+// };
