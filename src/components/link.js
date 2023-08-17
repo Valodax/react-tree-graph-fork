@@ -6,26 +6,21 @@ function diagonal(x1, y1, x2, y2) {
 	return `M${x1},${y1}C${(x1 + x2) / 2},${y1} ${(x1 + x2) / 2},${y2} ${x2},${y2}`;
 }
 
-export default function Link({
-  source,
-  target,
-  keyProp,
-  x1,
-  x2,
-  y1,
-  y2,
-  pathFunc = diagonal,
-  pathProps,
-}) {
-  const wrappedProps = wrapHandlers(
-    pathProps,
-    source.data[keyProp],
-    target.data[keyProp]
-  );
+export default function Link(props) {
+	const wrappedProps = wrapHandlers(
+		props.pathProps,
+		props.source.data[props.keyProp],
+		props.target.data[props.keyProp]
+	);
 
-  const d = pathFunc(x1, y1, x2, y2);
+	const d = props.pathFunc(
+		props.x1,
+		props.y1,
+		props.x2,
+		props.y2
+	);
 
-  return <path {...wrappedProps} d={d} />;
+	return <path {...wrappedProps} d={d}/>;
 }
 
 Link.propTypes = {
@@ -40,6 +35,6 @@ Link.propTypes = {
 	pathProps: PropTypes.object.isRequired
 };
 
-// Link.defaultProps = {
-// 	pathFunc: diagonal
-// };
+Link.defaultProps = {
+	pathFunc: diagonal
+};
